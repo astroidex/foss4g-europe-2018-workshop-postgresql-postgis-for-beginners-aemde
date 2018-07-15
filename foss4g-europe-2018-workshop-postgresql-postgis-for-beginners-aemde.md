@@ -8,10 +8,10 @@
 ## Astrid Emde
 
 * Astrid Emde
-* WhereGroup GmbH & Co. KG ![](img/WhereGroup.png )
+* WhereGroup GmbH & Co. KG 
 * astrid.emde@wheregroup.com
 * [@astroidex](https://twitter.com/astroidex)
-
+* ![](img/WhereGroup.png )
 
 ## What we learn 
 * Why database?
@@ -71,35 +71,38 @@ SELECT version(), postgis_version(), postgis_full_version();
 * PGConf.DE 13. April 2018 in Berlin http://2018.pgconf.de/
 * PostgreSQL books https://www.postgresql.org/docs/books/
 * pgRouting: A Practical Guide (Mai 2017, 2. Auflage) Regine Obe, Leo Hsu ISBN: 9780989421737
+* Find the right projection http://spatialreference.org/
 
 
 ## Why database?
 
-* central storage of data
+* central storage of data - no data redundancy
+* consistency of data
 * multi-user access
 * restricted access via access control and access management
+* access you data via different tools
   
 
 ## PostgreSQL
 
-* supported by other programs
-* fast, powerfull, reliable, robust
+* supported by several other programs
+* fast, powerful, reliable, robust
 * easy to maintain
 * follows SQL standard
 * API to many programming languages
-* subselects, functions, trigger, Foreign Data Wrapper & more
+* subselects, functions, trigger, Foreign Data Wrapper, replication & more
 * https://www.postgresql.org/about/
 
 
 ## PostGIS
 
 * Extension for PostgreSQL
-* follows standard - OGC Simple Feature Spezification for SQL and OGC ISO SQL/MM Spezification 
-* provides many spatial functions 
-* widly supported by other programms
-* easy import / export of spatial data (QGIS, shp2pgsql, pgsql2shp, ogr2ogr, dxf2postgis, osm2pgsql)
-* can use the advantages from PostgreSQL (user management, replication, indexing & more)
-* Very powerul: vector & raster data, geometry (planar) and geography (spheroid), circular objects, 3D, 4D, point cloud, pg_routing for routing, topography
+* Follows standard - OGC Simple Feature Spezification for SQL and OGC ISO SQL/MM Spezification 
+* Provides many spatial functions 
+* Widly supported by other programs
+* Easy import / export of spatial data (QGIS, shp2pgsql, pgsql2shp, ogr2ogr, dxf2postgis, osm2pgsql)
+* Can use the advantages from PostgreSQL (user management, replication, indexing & more)
+* Very powerful: vector & raster data, geometry (planar) and geography (spheroid), circular objects, 3D, 4D, point cloud, pg_routing for routing, topography
 * Stores data as WKB (Well-known Binary) and displays it as WKT (Well-known text)
 * http://www.postgis.org/
 * http://postgis.net/docs/manual-2.4/
@@ -110,6 +113,8 @@ SELECT version(), postgis_version(), postgis_full_version();
 * pgAdmin III and new pgAdmin 4 https://www.pgadmin.org/
 * psql command line client https://www.postgresql.org/docs/current/static/app-psql.html
 * QGIS DB Manager integrated in QGIS
+* and many other
+
 
 ### Excercise 1: pgAdmin & first steps in the database
 
