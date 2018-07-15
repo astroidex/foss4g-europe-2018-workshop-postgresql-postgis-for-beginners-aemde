@@ -14,6 +14,8 @@
 
 ![](img/WhereGroup.png )
 
+* FOSS Academy https://www.foss-academy.com/
+
 
 ## What we learn 
 * Why database?
@@ -70,7 +72,6 @@ SELECT version(), postgis_version(), postgis_full_version();
 * Clever Elephant ;) https://www.youtube.com/watch?v=Gw_Q1JClH58
 * Postgres OnLine Journal Regine Obe, Leo Hsu http://www.postgresonline.com/
 * Modern SQL Blog Markus Winand https://modern-sql.com/slides https://use-the-index-luke.com/
-* PGConf.DE 13. April 2018 in Berlin http://2018.pgconf.de/
 * PostgreSQL books https://www.postgresql.org/docs/books/
 * pgRouting: A Practical Guide (Mai 2017, 2. Auflage) Regine Obe, Leo Hsu ISBN: 9780989421737
 * Find the right projection http://spatialreference.org/
@@ -82,7 +83,9 @@ SELECT version(), postgis_version(), postgis_full_version();
 * consistency of data
 * multi-user access
 * restricted access via access control and access management
-* access you data via different tools
+* access your data via different tools
+* combine different data and use SQL to explore and analyze
+* backup, replication...
   
 
 ## PostgreSQL
@@ -99,6 +102,7 @@ SELECT version(), postgis_version(), postgis_full_version();
 ## PostGIS
 
 * Extension for PostgreSQL
+* let PostGIS do the work - not your Desktop GIS
 * Follows standard - OGC Simple Feature Spezification for SQL and OGC ISO SQL/MM Spezification 
 * Provides many spatial functions 
 * Widly supported by other programs
@@ -257,6 +261,11 @@ INSERT INTO cities(
     VALUES ('Guimarães',ST_SetSrid(ST_MakePoint(-8.29619,41.44443),4326),'Portugal');
 ```
 
+```sql
+INSERT INTO cities(
+            name, geom, country)
+    VALUES ('Cologne',ST_SetSRID(ST_MakePoint(50.941357,6.958307),4326),'Germany');
+```
 
 
 ## QGIS to visualize your data
@@ -331,7 +340,7 @@ Update ne_10m_admin_0_countries set geom = ST_GeomFromText('MULTIPOLYGON(((0 0,4
 
 ## Spatial Relationships and Measurements
 
-* get information about your data f.e. area, length, centroid
+* get information about your data f.e. distance, area, length, centroid
 
 
 ### Excercise 7: Calculate the area for each country
@@ -371,6 +380,20 @@ SELECT gid, name, st_centroid(geom)::geometry(point,4326) as geom
   FROM public.ne_10m_admin_0_countries;
 ```
 
+### Excercise 9: 
+
+* get back to your cities table from excercise 4. Calculate the distance between Guimarães and you home town.
+* use the spheroid for your calculations
+* https://postgis.net/docs/ST_Distance.html
+
+```sql
+SELECT g.name, you.name, ST_Distance(g.geom, you.geom,true) 
+FROM cities g, 
+cities you 
+WHERE 
+g.name = 'Guimarães' 
+AND you.name='Cologne';
+```
 
 ## Spatial Index and functional Index
 
@@ -389,7 +412,7 @@ USING GIST (ST_Transform(geom,25832));
 * There are many functions for geometry processing f.e. buffering, intersection, union, subdivide
 * http://postgis.net/docs/manual-2.4/reference.html#Geometry_Processing
 
-### Exercise 9: Buffer populated places with 10 km
+### Exercise 10: Buffer populated places with 10 km
 
 * buffer the table ne_10m_populated_places with 10 km
 * http://postgis.net/docs/manual-2.4/ST_Buffer.html
@@ -414,7 +437,7 @@ USING GIST (geom);
 Run the query again and check whether the index is used.
 
 
-### Exercise 10: Union all 19 provinces from country Portugal to one area 
+### Exercise 11: Union all 19 provinces from country Portugal to one area 
 
 * create a view called qry_portugal_union
 * use ST_UNION http://postgis.net/docs/manual-2.4/ST_Union.html
@@ -474,7 +497,7 @@ ALTER TABLE provinces_subdivided ADD COLUMN gid serial PRIMARY KEY;
 VACUUM ANALYZE;
 ```
 
-### Example 11: ST_Subdivide
+### Example 12: ST_Subdivide
 
 * sometimes it makes sense to divide huge geometries in smaler parts for calculations
 * this example should show the use 
