@@ -11,7 +11,9 @@
 * WhereGroup GmbH & Co. KG 
 * astrid.emde@wheregroup.com
 * [@astroidex](https://twitter.com/astroidex)
-* ![](img/WhereGroup.png )
+
+![](img/WhereGroup.png )
+
 
 ## What we learn 
 * Why database?
