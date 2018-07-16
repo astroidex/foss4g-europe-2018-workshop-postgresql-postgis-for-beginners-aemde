@@ -105,7 +105,7 @@ SELECT version(), postgis_version(), postgis_full_version();
 * let PostGIS do the work - not your Desktop GIS
 * Follows standard - OGC Simple Feature Spezification for SQL and OGC ISO SQL/MM Spezification 
 * Provides many spatial functions 
-* Widly supported by other programs
+* Widley supported by other programs
 * Easy import / export of spatial data (QGIS, shp2pgsql, pgsql2shp, ogr2ogr, dxf2postgis, osm2pgsql)
 * Can use the advantages from PostgreSQL (user management, replication, indexing & more)
 * Very powerful: vector & raster data, geometry (planar) and geography (spheroid), circular objects, 3D, 4D, point cloud, pg_routing for routing, topography
@@ -520,4 +520,44 @@ public.ne_10m_populated_places where gid < 5;
 ALTER TABLE ne_10m_populated_places ADD COLUMN countryname varchar;
 Update ne_10m_populated_places set countryname = getCountrynameSubdivided(geom);
 ```
+
+## PostgreSQL Roles and controlled access
+
+PostgreSQL allows you to create roles (user with login and user without login). This roles can have different power and get get access via GRANT to different objects of your database - f.e a table. 
+
+* see Create role: https://www.postgresql.org/docs/current/static/sql-createrole.html
+* see GRANT https://www.postgresql.org/docs/current/static/sql-grant.html
+
+
+### Example 13: Create roles and grant access    
+
+1. Create a role workshop_read and workshop_writer
+2. Create a login role robert with a password and add to workshop_reader
+3. Create a new login role wilma and add wilma to the workshop_writer role
+4. Grant read access to table ne_10m_admin_1_states_provinces_shp to your new role workshop_reader
+5. Grant write access to table cities to your new role workshop_writer 
+6. Try to access and edit via QGIS 
+
+```sql
+CREATE ROLE workshop_reader;
+CREATE ROLE workshop_writer;
+
+CREATE ROLE robert WITH LOGIN PASSWORD 'foss4g';
+GRANT workshop_reader TO robert;
+
+CREATE ROLE wilma WITH LOGIN PASSWORD 'foss4g';
+GRANT workshop_writer TO wilma;
+
+GRANT SELECT ON ne_10m_admin_1_states_provinces_shp to workshop_reader;
+-- change to user robert
+Select * from ne_10m_admin_1_states_provinces_shp;
+
+GRANT ALL ON cities to workshop_writer;
+GRANT USAGE ON SEQUENCE cities_gid_seq TO workshop_writer;
+
+-- change to user wilma
+Select * from cities;
+Update cities set name = 'TEST' WHERE name = 'Guimarães';
+```
+
 
